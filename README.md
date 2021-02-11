@@ -20,9 +20,8 @@ tech lunch LTで使用したサンプルコードです
 .
 └─ app
   ├── functions
-  │   └── capture
+  │   └── something-function-name
   ├── gateway
-  │   ├── node_modules
   │   └── src
   └── gcloud-configs
 ```
