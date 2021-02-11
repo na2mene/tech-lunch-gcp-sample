@@ -1,0 +1,30 @@
+{
+  "name": "capture",
+  "version": "0.1.0",
+  "main": "./index.js",
+  "author": "na2mene",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "lint": "eslint --parser @typescript-eslint/parser --ext .ts .",
+    "typecheck": "tsc --noEmit",
+    "test": "yarn lint && yarn typecheck",
+    "start": "node ./index.js",
+    "deploy:all": "yarn test && yarn build && ./deploy",
+    "deploy:notify": "yarn test && yarn build && ./deployNotifyScreenCaptureToSlack",
+    "deploy:upload": "yarn test && yarn build && ./deployUploadScreenCaptureToGCS"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^5.7.0",
+    "@slack/webhook": "^5.0.3",
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^5.4.2",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "eslint": "^7.17.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+cd `dirname $0`
+
+PROJECT_ID=`gcloud config get-value project --configuration tech-lunch`
+IMAGE=asia.gcr.io/$PROJECT_ID/tech-lunch/gateway
+
+# TODO: https://cloud.google.com/secret-manager?hl=ja
+INCOMING_WEB_HOOK=https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxx/xxxxxxxxxxxxxxxx
+
+docker build -t asia.gcr.io/$PROJECT_ID/tech-lunch/gateway:latest .
+docker push asia.gcr.io/$PROJECT_ID/tech-lunch/gateway:latest
+
+gcloud run deploy gateway \
+  --image $IMAGE \
+  --platform managed \
+  --region asia-northeast1 \
+  --max-instances 1 \
+  --memory 128Mi \
+  --port 3000 \
+  --timeout 30 \
+  --set-env-vars PROJECT_ID=$PROJECT_ID,INCOMING_WEB_HOOK=$INCOMING_WEB_HOOK

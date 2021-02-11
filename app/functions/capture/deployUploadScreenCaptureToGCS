@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+cd `dirname $0`
+
+PROJECT_ID=`gcloud config get-value project --configuration tech-lunch`
+
+cp ./dist/index.js ./index.js
+cp ../../gcloud-configs/tech-lunch.json ./tech-lunch.json
+
+gcloud functions deploy uploadScreenCaptureToGCS \
+  --entry-point uploadScreenCaptureToGCS \
+  --region asia-northeast1 \
+  --runtime nodejs12 \
+  --trigger-topic capture \
+  --memory 512MB \
+  --timeout 30 \
+  --max-instances 1 \
+  --set-env-vars PROJECT_ID=$PROJECT_ID
+
+rm ./index.js
+rm ./tech-lunch.json
